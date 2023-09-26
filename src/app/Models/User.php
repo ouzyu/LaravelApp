@@ -16,9 +16,17 @@ class User extends Authenticatable
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
+     * 
+     * @property string $screen_name
+     * @property string $name
+     * @property string $profile_image
+     * @property string $email
+     * @property string $password
      */
     protected $fillable = [
+        'screen_name',
         'name',
+        'profile_image',
         'email',
         'password',
     ];
@@ -41,4 +49,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function followers()
+    {
+        return $this->belongsToMany(self::class, 'followers', 'followed_id', 'following_id');
+    }
+
+    public function followings()
+    {
+        return $this->belongsToMany(self::class, 'followers', 'following_id', 'followed_id');
+    }
 }
