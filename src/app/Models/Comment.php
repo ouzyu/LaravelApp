@@ -17,7 +17,7 @@ class Comment extends Model
      * @property string $text
      */
 
-     protected $fillable [
+     protected $fillable = [
         'text'
      ];
 

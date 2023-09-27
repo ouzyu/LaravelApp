@@ -28,7 +28,7 @@ class Tweet extends Model
 
      public function favorites()
      {
-        return $this->hasMany(faborite::class);
+        return $this->hasMany(favorite::class);
      }
 
      public function comments()
