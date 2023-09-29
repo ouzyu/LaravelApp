@@ -59,4 +59,28 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(self::class, 'followers', 'following_id', 'followed_id');
     }
+
+    public function getAllUsers(Int $user_id) {
+        return $this->where('id', '<>', $user_id)->paginate(5);
+    }
+
+    public function follow(Int $user_id)
+    {
+        return $this->followings()->attach($user_id);
+    }
+
+    public function unfollow(Int $user_id)
+    {
+        return $this->followings()->detach($user_id);
+    }
+
+    public function isFollowing(Int $user_id)
+    {
+        return (boolean) $this->followings()->where('followed_id', $user_id)->first(['id']);
+    }
+
+    public function isFollowed(Int $user_id)
+    {
+        return (boolean) $this->followers()->where('following_id', $user_id)->first(['id']);
+    }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,5 +21,11 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
+
+Route::group(['middleware' => 'auth'], function() {
+    Route::resource('users', UsersController::class, ['only' => ['index', 'show', 'edit', 'update']]);
+    Route::post('users/{id}/follow', [UsersController::class, 'follow'])->name('follow');
+    Route::delete('users/{id}/unfollow', [UsersController::class, 'unfollow'])->name('unfollow');
+});
 
 require __DIR__.'/auth.php';
